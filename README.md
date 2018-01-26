@@ -1,4 +1,4 @@
-![logo](https://raw.githubusercontent.com/atomheartother/eMAL/master/src/icons/128x128.png)
+![logo](https://github.com/atomheartother/eMAL/blob/master/ff%2Bchrome/icons/128x128.png)
 # eMAL - enhanced MyAnimeList
 
 ## What it does
