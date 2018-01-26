@@ -60,8 +60,6 @@ function selectUpTo(div, ctrl)
         idxNew = idxLast;
         idxLast = temp;
     }
-    console.log(idxNew);
-    console.log(idxLast);
     while (idxLast <= idxNew)
     {
         if (!ctrl)
@@ -146,7 +144,7 @@ function deleteAnime(animu)
     var id = getAnimeId(animu);
     // Put in the csrf token
     var payload = "csrf_token=" + csrf;
-    var request = new  window.wrappedJSObject.XMLHttpRequest();
+    var request = new XMLHttpRequest();
     request.open('POST', 'https://myanimelist.net/ownlist/anime/' + id + '/delete?hideLayout=1', true);
     request.onload = function(e) {
         // This doesn't trigger for SOME reason... Leaving in for now
