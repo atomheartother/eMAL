@@ -1,6 +1,10 @@
+// Class names
 var emItem = "eMALItem";
 var selClass = "emSelected";
+
+// Stores the last object the user clicked on
 var lastSelected = null;
+// Stores the csrf token
 var csrf = null;
 
 function getSelected()
@@ -139,6 +143,7 @@ function getAnimeId(div)
     return img.href.split("/")[4];
 }
 
+// AJAX request to MAL to delete an anime
 function deleteAnime(animu)
 {
     var id = getAnimeId(animu);
@@ -147,10 +152,9 @@ function deleteAnime(animu)
     var request = new XMLHttpRequest();
     request.open('POST', 'https://myanimelist.net/ownlist/anime/' + id + '/delete?hideLayout=1', true);
     request.onload = function(e) {
-        // This doesn't trigger for SOME reason... Leaving in for now
+        // This doesn't trigger on firefox for some reason, so we can't do anything here.
         if (request.status >= 200 && request.status < 400) {
             // Success!
-            console.log("Success!");
         } else {
             // We reached our target server, but it returned an error
             console.error("Server returned an error");
