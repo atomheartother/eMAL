@@ -11,8 +11,8 @@ You can select anime by clicking on the items in your list. Supports:
 I have plans to add other QoL changes, in particular support for the manga list and support for custom anime lists (only supports the default MAL anime list right now). Stay tuned.
 
 ## Supported browsers
-I have plans for Chrome + Firefox full support. I have no interest in managing support for other browsers myself.
-If you'd like to add support to these browsers, the code is right here, feel free to contribute!
+You can find eMAL on [Chrome](https://chrome.google.com/webstore/detail/cmeebapejoapfdgioceapbpbgigomoml/) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/emal/).
+I have no interest in managing support for other browsers myself. If you'd like to add support to another browser, feel free to contribute!
 
 ## Contact
 [@atomheartother](https://twitter.com/atomheartother)
