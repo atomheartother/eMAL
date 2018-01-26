@@ -1,3 +1,19 @@
+.eMALItem {
+    cursor: pointer;
+}
+
 .list-item.emSelected {
-    background-color: #dcdcdc!important;
+    background-color: #4065BA!important;
+    color: white;
+}
+
+.list-item.emSelected a {
+    color: white;
+}
+
+.list-item.emSelected .edit {
+    color: #ba9540!important;
+}
+
+#deleteButton{
 }

@@ -1,7 +1,7 @@
-var divs = document.getElementsByClassName('list-item');
-
+var emItem = "eMALItem";
 var selClass = "emSelected";
 var lastSelected = null;
+var csrf = null;
 
 function getSelected()
 {
@@ -32,6 +32,7 @@ function addToSelected(div)
 // ctrl boolean, when true, makes it so shift REMOVES all the elements rather than adding them
 function selectUpTo(div, ctrl)
 {
+    var divs = document.getElementsByClassName(emItem);
     var idxLast = -1;
     var idxNew  = -1;
     for (var i=0 ; i < divs.length ; i++)
@@ -68,10 +69,16 @@ function selectUpTo(div, ctrl)
 // Click handler
 function handleClick(ev)
 {
+    // Remove text highlight browser dumbness
+    if (document.selection)
+        document.selection.empty();
+    else if (window.getSelection)
+        window.getSelection().removeAllRanges();
+
     var ctrl = ev.ctrlKey;
     var shift = ev.shiftKey;
 
-    // Events trigger on the child and don't go up, annoyingly enough. Need to manually browse through it.
+    // Events trigger on the child and don't go up, annoyingly enough. Need to manually browse up to the desired parent.
     var div = ev.target;
     while (!div.classList.contains("list-item"))
     {
@@ -88,13 +95,17 @@ function handleClick(ev)
         getSelected().length > 0 &&
         lastSelected != null)
     {
+        // User pressed shift, and we have a previous point from which to select
         selectUpTo(div, ctrl);
     }
-    // No control, no shift, always clear everything and seleect only this element
-    else if (!ctrl)
+    else if (!ctrl) // No control, no shift: clear everything and select only this element
     {
+        // Special case, if the element the user clicked on is the only one set, then don't re-add it, instead understand it as 'clear'
+        var shouldSelect = !(div.classList.contains(selClass) &&
+                             getSelected().length == 1);
         clearSelected();
-        addToSelected(div);
+        if (shouldSelect)
+            addToSelected(div);
     }
     else
     {
@@ -105,25 +116,93 @@ function handleClick(ev)
             addToSelected(div);
     }
 
-    // Remove text highlight browser dumbness
-    if (document.selection)
-        document.selection.empty();
-    else if (window.getSelection)
-        window.getSelection().removeAllRanges();
-
     lastSelected = div;
 }
 
 function setOnClickListeners()
 {
+    var divs = document.querySelectorAll(".list-item:not(." + emItem + ")");
     for (var i=0 ; i < divs.length ; i++)
     {
-        divs[i].onclick = handleClick;
+        divs[i].classList.add(emItem);
+        divs[i].addEventListener('click', handleClick, false);
+    }
+}
+
+function getAnimeId(div)
+{
+    var img = div.firstChild.childNodes[4].firstChild;
+    return img.href.split("/")[4];
+}
+
+function deleteAnime(id)
+{
+    var payload = "csrf_token=" + csrf;
+    var request = new  window.wrappedJSObject.XMLHttpRequest();
+    request.open('POST', 'https://myanimelist.net/ownlist/anime/' + id + '/delete?hideLayout=1', true);
+    request.onload = function() {
+        console.log("Got response!");
+        if (request.status >= 200 && request.status < 400) {
+            // Success!
+            var data = JSON.parse(request.responseText);
+            console.log(data);
+        } else {
+            // We reached our target server, but it returned an error
+            console.error("Server returned an error");
+            console.error(request);
+        }
+    };
+
+    request.onerror = function() {
+        // There was a connection error of some sort
+        console.error("Connection error");
+        console.error(request);
+    };
+    request.send(payload);
+}
+
+function removeAll()
+{
+    // For now, remove the first anime in the list
+    if (getSelected().length < 1)
+        return ;
+    var animu = getSelected()[0];
+    deleteAnime(getAnimeId(animu));
+}
+
+function createButtons()
+{
+    var stats = document.getElementsByClassName('stats')[0];
+    var button = document.createElement("a");
+    var linkText = document.createTextNode("Remove");
+    button.appendChild(linkText);
+    button.id = "deleteButton";
+    button.title = "Remove";
+    button.href = "#";
+    button.addEventListener('click', removeAll, false);
+    stats.insertBefore(button, stats.childNodes[0]);
+}
+
+// We need to get the CSRF token from the site so it doesn't panic when we pretend we are the website.
+function getCSRF()
+{
+    console.log("getting");
+    var metas = document.getElementsByTagName('meta');
+    for (var i=0 ; i < metas.length ; i++)
+    {
+        console.log("test");
+        if (metas[i].getAttribute("name") == 'csrf_token')
+        {
+            return metas[i].getAttribute("content");
+        }
     }
 }
 
 // This value is '1' when looking at your own profile:
 if (document.body.dataset.owner != "")
 {
-    setOnClickListeners();
+    csrf = getCSRF();
+    // Every so often, check for new list elements and add them.
+    setInterval(setOnClickListeners, 1000);
+    createButtons();
 }
