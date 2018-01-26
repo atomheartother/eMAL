@@ -61,7 +61,7 @@ function selectUpTo(div, ctrl)
         if (!ctrl)
             addToSelected(divs[idxLast]);
         else
-            removeFromSelected(divs[idxLast]);
+ https://www.reddit.com/r/WatchPeopleDieInside/comments/7t0vlw/when_she_doesnt_want_her_friends_to_know_about_you/           removeFromSelected(divs[idxLast]);
         idxLast++;
     }
 }
@@ -135,22 +135,24 @@ function getAnimeId(div)
     return img.href.split("/")[4];
 }
 
-function deleteAnime(id)
+function deleteAnime(animu)
 {
+    var id = getAnimeId(animu);
+    // Put in the csrf token
     var payload = "csrf_token=" + csrf;
     var request = new  window.wrappedJSObject.XMLHttpRequest();
     request.open('POST', 'https://myanimelist.net/ownlist/anime/' + id + '/delete?hideLayout=1', true);
-    request.onload = function() {
-        console.log("Got response!");
+    request.onload = function(e) {
+        // This doesn't trigger for SOME reason... Leaving in for now
         if (request.status >= 200 && request.status < 400) {
             // Success!
-            var data = JSON.parse(request.responseText);
-            console.log(data);
+            console.log("Success!");
         } else {
             // We reached our target server, but it returned an error
             console.error("Server returned an error");
             console.error(request);
         }
+
     };
 
     request.onerror = function() {
@@ -158,16 +160,24 @@ function deleteAnime(id)
         console.error("Connection error");
         console.error(request);
     };
+
+    // Necessary for the server to respond
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     request.send(payload);
 }
 
 function removeAll()
 {
+    var selected = getSelected();
     // For now, remove the first anime in the list
-    if (getSelected().length < 1)
+    if (selected.length < 1)
         return ;
-    var animu = getSelected()[0];
-    deleteAnime(getAnimeId(animu));
+    for (var i=0; i<selected.length ; i++)
+    {
+        var animu = selected[i];
+        deleteAnime(animu);
+        animu.style.display = "none";
+    }
 }
 
 function createButtons()
@@ -186,11 +196,9 @@ function createButtons()
 // We need to get the CSRF token from the site so it doesn't panic when we pretend we are the website.
 function getCSRF()
 {
-    console.log("getting");
     var metas = document.getElementsByTagName('meta');
     for (var i=0 ; i < metas.length ; i++)
     {
-        console.log("test");
         if (metas[i].getAttribute("name") == 'csrf_token')
         {
             return metas[i].getAttribute("content");
