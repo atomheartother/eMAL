@@ -56,12 +56,14 @@ function selectUpTo(div, ctrl)
         idxNew = idxLast;
         idxLast = temp;
     }
+    console.log(idxNew);
+    console.log(idxLast);
     while (idxLast <= idxNew)
     {
         if (!ctrl)
             addToSelected(divs[idxLast]);
         else
- https://www.reddit.com/r/WatchPeopleDieInside/comments/7t0vlw/when_she_doesnt_want_her_friends_to_know_about_you/           removeFromSelected(divs[idxLast]);
+            removeFromSelected(divs[idxLast]);
         idxLast++;
     }
 }
