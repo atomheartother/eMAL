@@ -12,6 +12,8 @@ function getSelected()
 function removeFromSelected(div)
 {
     div.classList.remove(selClass);
+    if (getSelected().length == 0)
+        document.getElementById('eMalButtons').classList.remove('emActive');
 }
 
 // Clears all selected items
@@ -20,12 +22,14 @@ function clearSelected()
     var selected = getSelected();
     while (selected.length > 0)
         removeFromSelected(selected[0]);
+    document.getElementById('eMalButtons').classList.remove('emActive');
 }
 
 // Adds a value to the selected array
 function addToSelected(div)
 {
     div.classList.add(selClass);
+    document.getElementById('eMalButtons').classList.add('emActive');
 }
 
 // selectUpTo adds every element from the last element clicked to the parameter
@@ -184,15 +188,22 @@ function removeAll()
 
 function createButtons()
 {
-    var stats = document.getElementsByClassName('stats')[0];
-    var button = document.createElement("a");
+    var bar = document.getElementsByClassName('list-status-title')[0];
+
+    var container = document.createElement("div");
+    container.id = "eMalButtons";
+
+    bar.appendChild(container);
+
+    var remove = document.createElement("a");
     var linkText = document.createTextNode("Remove");
-    button.appendChild(linkText);
-    button.id = "deleteButton";
-    button.title = "Remove";
-    button.href = "#";
-    button.addEventListener('click', removeAll, false);
-    stats.insertBefore(button, stats.childNodes[0]);
+    remove.appendChild(linkText);
+    remove.classList.add("emButton");
+    remove.title = "Remove";
+    remove.href = "#";
+    remove.addEventListener('click', removeAll, false);
+
+    container.append(remove);
 }
 
 // We need to get the CSRF token from the site so it doesn't panic when we pretend we are the website.

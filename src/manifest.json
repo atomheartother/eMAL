@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "eMAL",
-  "version": "0.1",
+  "version": "0.2",
 
   "description": "Quality-of-life enhancements for MyAnimeList",
 
@@ -13,7 +13,7 @@
 
   "content_scripts": [
     {
-      "matches": ["*://myanimelist.net/*list/*"],
+      "matches": ["*://myanimelist.net/animelist/*"],
         "js": ["eMAL.js"],
         "css": ["eMAL.css"]
     }

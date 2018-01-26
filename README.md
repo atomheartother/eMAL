@@ -1,13 +1,18 @@
 ![logo](https://raw.githubusercontent.com/atomheartother/eMAL/master/src/icons/128x128.png)
 # eMAL - enhanced MyAnimeList
+
 ## What it does
-Still in the works, but the first release should let you mass-delete and mass-edit your anime list, which will save hours for people with large lists.
+Adds a button to your anime list which lets you mass-remove items from it.
+You can select anime by clicking on the items in your list. Supports:
+- Ctrl+Click to select multiple individual items
+- Shift+Click to select a range of items
+- Ctrl+Shift+Click to un-select a range of items.
 
-## What powers it
-Pure javascript, and a bit of CSS.
+I have plans to add other QoL changes, in particular support for the manga list and support for custom anime lists (only supports the default MAL anime list right now). Stay tuned.
 
-## Which browsers?
-Chrome & Firefox.
+## Supported browsers
+I have plans for Chrome + Firefox full support. I have no interest in managing support for other browsers myself.
+If you'd like to add support to these browsers, the code is right here, feel free to contribute!
 
 ## Contact
 [@atomheartother](https://twitter.com/atomheartother)

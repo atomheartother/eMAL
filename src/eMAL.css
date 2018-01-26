@@ -11,9 +11,32 @@
     color: white;
 }
 
+/* Edit link */
 .list-item.emSelected .edit {
     color: #ba9540!important;
 }
 
-#deleteButton{
+#eMalButtons {
+    position: absolute;
+    height: 38px;
+    line-height: 38px;
+    left: 50px;
+}
+
+#eMalButtons .emButton {
+    color: white;
+    padding: 4px;
+    background-color: #4065BA;
+    border: 2px solid white;
+    margin-right: 6px;
+}
+
+#eMalButtons:not(.emActive) {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+#eMalButtons .emButton:hover {
+    color: #4065BA;
+    background-color: white;
 }
