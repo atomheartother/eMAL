@@ -2,7 +2,15 @@
     cursor: pointer;
 }
 
-.list-item.emSelected {
+.list-table > tbody {
+    transition: background-color 0.3s ease-in-out;
+}
+
+.list-table > tbody:hover {
+    background-color: #B0C5F5;
+}
+
+.list-table > tbody.emSelected {
     background-color: #4065BA!important;
     color: white;
 }
@@ -15,6 +23,7 @@
 .list-item.emSelected .edit {
     color: #ba9540!important;
 }
+
 
 #eMalButtons {
     position: absolute;

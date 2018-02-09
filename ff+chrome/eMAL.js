@@ -2,6 +2,9 @@
 var emItem = "eMALItem";
 var selClass = "emSelected";
 
+// Whether we're on the manga list or not
+var isManga = window.location.href.split("/")[3] === "mangalist";
+
 // Stores the last object the user clicked on
 var lastSelected = null;
 // Stores the csrf token
@@ -137,20 +140,24 @@ function setOnClickListeners()
     }
 }
 
-function getAnimeId(div)
+function getId(div)
 {
     var img = div.firstChild.childNodes[4].firstChild;
     return img.href.split("/")[4];
 }
 
-// AJAX request to MAL to delete an anime
-function deleteAnime(animu)
+// AJAX request to MAL to delete an anime (or a manga)
+function deleteElement(animu)
 {
-    var id = getAnimeId(animu);
+    var id = getId(animu);
     // Put in the csrf token
     var payload = "csrf_token=" + csrf;
     var request = new XMLHttpRequest();
-    request.open('POST', 'https://myanimelist.net/ownlist/anime/' + id + '/delete?hideLayout=1', true);
+    if (isManga)
+        request.open('POST', 'https://myanimelist.net/ownlist/manga/' + id + '/delete?hideLayout=1', true);
+    else
+        request.open('POST', 'https://myanimelist.net/ownlist/anime/' + id + '/delete?hideLayout=1', true);
+
     request.onload = function(e) {
         // This doesn't trigger on firefox for some reason, so we can't do anything here.
         if (request.status >= 200 && request.status < 400) {
@@ -183,7 +190,7 @@ function removeAll()
     for (var i=0; i<selected.length ; i++)
     {
         var animu = selected[i];
-        deleteAnime(animu);
+        deleteElement(animu);
         animu.style.display = "none";
     }
 }
