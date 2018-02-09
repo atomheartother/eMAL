@@ -126,7 +126,6 @@ function handleClick(ev)
         else
             addToSelected(div);
     }
-
     lastSelected = div;
 }
 
@@ -153,10 +152,8 @@ function deleteElement(animu)
     // Put in the csrf token
     var payload = "csrf_token=" + csrf;
     var request = new XMLHttpRequest();
-    if (isManga)
-        request.open('POST', 'https://myanimelist.net/ownlist/manga/' + id + '/delete?hideLayout=1', true);
-    else
-        request.open('POST', 'https://myanimelist.net/ownlist/anime/' + id + '/delete?hideLayout=1', true);
+    var reqUrl = isManga ? 'https://myanimelist.net/ownlist/manga/' : 'https://myanimelist.net/ownlist/anime/';
+    request.open('POST', reqUrl + id + '/delete?hideLayout=1', true);
 
     request.onload = function(e) {
         // This doesn't trigger on firefox for some reason, so we can't do anything here.

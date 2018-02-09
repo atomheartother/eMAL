@@ -1,12 +1,9 @@
 .eMALItem {
     cursor: pointer;
-}
-
-.list-table > tbody {
     transition: background-color 0.3s ease-in-out;
 }
 
-.list-table > tbody:hover {
+.eMALItem:hover {
     background-color: #B0C5F5;
 }
 
