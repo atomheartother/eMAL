@@ -8,6 +8,8 @@ You can select anime by clicking on the items in your list. Supports:
 - Shift+Click to select a range of items
 - Ctrl+Shift+Click to un-select a range of items.
 
+![screenshot](https://lh3.googleusercontent.com/efFGiFKJpyf4IYoSJEyB1s5-u7fPS8lZ1-XKjjv25s8BKi197MUJi29BDpF6LT29YQB_96Sy7h4=w640-h400-e365)
+
 I have plans to add other QoL changes, in particular support for the manga list and support for custom anime lists (only supports the default MAL anime list right now). Stay tuned.
 
 ## Supported browsers
